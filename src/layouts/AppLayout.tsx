@@ -33,11 +33,9 @@ const HeaderContainer = styled.div`
   }
 `;
 
-
 const Main = styled.main`
   flex: 1;
   padding: 2rem;
-  background: #f9fafb;
 
   @media (max-width: 768px) {
     padding: 1rem;
