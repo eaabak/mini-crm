@@ -8,34 +8,61 @@ interface Props {
 
 export default function UserCardView({ users }: Props) {
   return (
-    <Grid>
-      {users.map((user) => (
-        <Card key={user.id}>
-          <HeaderSection>
-            <Name>{user.name}</Name>
-            <Status $active={user.isActive}>
-              {user.isActive ? "Aktif" : "Pasif"}
-            </Status>
-          </HeaderSection>
-          <Details>
-            <Label>E-posta:</Label>
-            <Email>{user.email}</Email>
-            <Label>Rol:</Label>
-            <Role>{user.role}</Role>
-            <Label>Oluşturulma:</Label>
-            <Date>{formatDate(user.createdAt)}</Date>
-          </Details>
-          <StyledLink to={`/users/${user.id}`}>Detay Gör</StyledLink>
-        </Card>
-      ))}
-    </Grid>
+    <Container>
+      <ScrollableGrid>
+        <Grid>
+          {users.map((user) => (
+            <Card key={user.id}>
+              <HeaderSection>
+                <Name>{user.name}</Name>
+                <Status $active={user.isActive}>
+                  {user.isActive ? "Aktif" : "Pasif"}
+                </Status>
+              </HeaderSection>
+              <Details>
+                <Label>E-posta:</Label>
+                <Email>{user.email}</Email>
+                <Label>Rol:</Label>
+                <Role>{user.role}</Role>
+                <Label>Oluşturulma:</Label>
+                <Date>{formatDate(user.createdAt)}</Date>
+              </Details>
+              <StyledLink to={`/users/${user.id}`}>Detay Gör</StyledLink>
+            </Card>
+          ))}
+        </Grid>
+      </ScrollableGrid>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const ScrollableGrid = styled.div`
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  margin-right: -0.5rem;
+
+  scrollbar-width: thin;
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+  }
+`;
 
 const Grid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 1rem;
+  padding-bottom: 1rem;
 `;
 
 const Card = styled.div`
@@ -103,15 +130,16 @@ const Date = styled.small`
 const StyledLink = styled(Link)`
   margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background: #2563eb;
+  background: #3ba936;
   color: #ffffff;
   border-radius: 8px;
   text-align: center;
   font-size: 0.85rem;
   font-weight: 600;
   transition: background 0.2s;
+  text-decoration: none;
 
   &:hover {
-    background: #1e40af;
+    background: rgb(120, 186, 116);
   }
 `;

@@ -19,15 +19,4 @@ export const GlobalStyle = createGlobalStyle`
   width: 100%;
   min-height: 100vh;
 }
-
-
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  button {
-    font-family: inherit;
-    cursor: pointer;
-  }
 `;

@@ -62,13 +62,19 @@ export default function UserListActions({
     </Wrapper>
   );
 }
+
 const Wrapper = styled.div`
-  width: 100%;  
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const Left = styled.div`
@@ -76,6 +82,11 @@ const Left = styled.div`
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 
 const SearchWrapper = styled.div`
@@ -89,6 +100,10 @@ const SearchWrapper = styled.div`
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   svg {
     color: #9ca3af;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -105,6 +120,10 @@ const Input = styled.input`
 
   &::placeholder {
     color: #9ca3af;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
   }
 `;
 
@@ -135,18 +154,23 @@ const Right = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;
 
 const ToggleWrapper = styled.div`
   display: flex;
   gap: 0.5rem;
-  background:rgb(233, 234, 237);
+  background: rgb(233, 234, 237);
   padding: 0.3rem;
   border-radius: 6px;
 `;
 
 const IconToggle = styled.button<{ $active?: boolean }>`
-  background: ${({ $active }) => ($active ? "#2563eb" : "transparent")};
+  background: ${({ $active }) => ($active ? "#3ba936" : "transparent")};
   color: ${({ $active }) => ($active ? "#fff" : "#6b7280")};
   border: none;
   border-radius: 4px;
@@ -158,7 +182,7 @@ const IconToggle = styled.button<{ $active?: boolean }>`
   outline: none;
 
   &:hover {
-    background: ${({ $active }) => ($active ? "#1e40af" : "#e5e7eb")};
+    background: ${({ $active }) => ($active ? "#3ba936" : "#e5e7eb")};
   }
 
   &:focus,
@@ -169,8 +193,8 @@ const IconToggle = styled.button<{ $active?: boolean }>`
 `;
 
 const AddButton = styled.button`
-  background: #2563eb;
-  color: white;
+  background: #3ba936;
+  color: #ffffff;
   border: none;
   padding: 0.6rem 1rem;
   border-radius: 8px;
@@ -183,7 +207,7 @@ const AddButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: #1e40af;
+    background: rgb(120, 186, 116);
   }
 
   &:focus,
