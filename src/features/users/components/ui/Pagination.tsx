@@ -9,7 +9,7 @@ import {
 interface Props {
   currentPage: number;
   totalPages: number;
-  totalItems: number; // ✅ yeni eklendi
+  totalItems: number;
   onPageChange: (page: number) => void;
   variant?: "table" | "card";
 }

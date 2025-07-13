@@ -2,12 +2,13 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useMemo, useState } from "react";
 import styled from "styled-components";
 
-import { useUserStore } from "../store";
+import { useUserStore } from "../stores/useUserStore";
 import UserCardView from "../components/UserCardView";
 import UserTableView from "../components/UserTableView";
 import Pagination from "../components/ui/Pagination";
 import UserListActions from "../components/UserListActions";
 import { FaUserSlash } from "react-icons/fa";
+import React from "react";
 const USERS_PER_PAGE = 20;
 
 export default function UserListPage() {
@@ -18,6 +19,19 @@ export default function UserListPage() {
 
   const searchText = searchParams.get("search") || "";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setViewMode("card");
+      }
+    };
+  
+    handleResize();
+    window.addEventListener("resize", handleResize);
+  
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const filteredUsers = useMemo(() => {
     const term = searchText.toLowerCase();

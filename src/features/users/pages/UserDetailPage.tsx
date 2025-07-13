@@ -1,90 +1,107 @@
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { FiUserX } from "react-icons/fi";
 
-import { useUserStore } from "../store";
-import { Card, Field, Label, Message, Title } from "../components/ui";
-
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
+import CustomMarker from "../components/CustomMarker";
+import markerIcon from "../../../assets/markerIcon.svg";
+import { useSelectedUserStore } from "../stores/useSelectedUserStore";
 
 export default function UserDetailPage() {
-  const { id } = useParams();
-  const users = useUserStore((s) => s.users);
-  const user = users.find((u) => u.id === id);
+  const navigate = useNavigate();
+  const { user } = useSelectedUserStore();
 
-  if (!user) return <Message>Kullanıcı bulunamadı.</Message>;
+  const customIcon = new L.Icon({
+    iconUrl: markerIcon,
+    iconSize: [32, 32],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  });
+
+  if (!user) {
+    return (
+      <CenteredWrapper>
+        <NotFoundCard>
+          <FiUserX size={48} color="#ef4444" />
+          <h2>Kullanıcı Bulunamadı</h2>
+          <p>Aradığınız kullanıcı silinmiş ya da hiç eklenmemiş olabilir.</p>
+          <BackButton onClick={() => navigate("/")}>Ana Sayfaya Dön</BackButton>
+        </NotFoundCard>
+      </CenteredWrapper>
+    );
+  }
 
   return (
-    <Wrapper>
-      <Card>
-        <Title>{user.name}</Title>
-        <Field>
-          <Label>E-posta:</Label> {user.email}
-        </Field>
-        <Field>
-          <Label>Rol:</Label> {user.role}
-        </Field>
-        <Field>
-          <Label>Durum:</Label>{" "}
-          <Status $active={user.isActive}>
-            {user.isActive ? "Aktif" : "Pasif"}
-          </Status>
-        </Field>
-        <Field>
-          <Label>Oluşturulma:</Label>{" "}
-          {new Date(user.createdAt).toLocaleDateString("tr-TR")}
-        </Field>
-      </Card>
-
-      <MapWrapper>
-        <MapContainer
-          center={[user.latitude, user.longitude]}
-          zoom={13}
-          scrollWheelZoom={false}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution="© OpenStreetMap contributors"
-          />
-          <Marker position={[user.latitude, user.longitude]} />
-        </MapContainer>
-      </MapWrapper>
-    </Wrapper>
+    <FullScreenMapWrapper>
+      <MapContainer
+        center={[user.latitude, user.longitude]}
+        zoom={5}
+        scrollWheelZoom
+        style={{ width: "100%", height: "100%", borderRadius: "12px" }}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution="© OpenStreetMap contributors"
+        />
+        <CustomMarker user={user} icon={customIcon} />
+      </MapContainer>
+    </FullScreenMapWrapper>
   );
 }
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  padding: 2rem;
+const FullScreenMapWrapper = styled.div`
+  width: 100%;
+  height: 80vh;
+`;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
+const CenteredWrapper = styled.div`
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+`;
+
+const NotFoundCard = styled.div`
+  padding: 3rem 2.5rem;
+  border-radius: 16px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+
+  h2 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+  }
+
+  p {
+    font-size: 0.95rem;
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+  }
+
+  svg {
+    margin-bottom: 0.5rem;
   }
 `;
 
-const MapWrapper = styled.div`
-  flex: 1;
-  min-width: 300px;
-  height: 400px;
-  min-height: 300px;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-`;
+const BackButton = styled.button`
+  background-color: #3ba936;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 
-const Status = styled.span<{ $active: boolean }>`
-  color: ${({ $active }) => ($active ? "#28a745" : "#dc3545")};
-  font-weight: 600;
+  &:hover {
+    background-color: rgb(120, 186, 116);
+  }
 `;

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { generateFakeUsers } from "./utils";
-import type { User } from "./types";
+import { generateFakeUsers } from "../utils";
+import type { User } from "../types";
 
 interface UserState {
   users: User[];
