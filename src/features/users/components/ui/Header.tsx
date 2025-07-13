@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { FaGithub } from "react-icons/fa";
+import LogoIcon from "../../../../assets/miniCRM.svg";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
     <Wrapper>
       <Left>
-        <PageTitle>MiniCRM</PageTitle>
+        <HomeLink to="/">
+          <LogoWrapper>
+            <img src={LogoIcon} alt="MiniCRM Logo" />
+          </LogoWrapper>
+        </HomeLink>
       </Left>
 
       <Right>
@@ -54,16 +60,25 @@ const Wrapper = styled.header`
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 `;
 
+const LogoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 120px;
+    height: auto;
+  }
+`;
+
+const HomeLink = styled(Link)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+`;
+
 const Left = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-const PageTitle = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin: 0;
-  color: white;
 `;
 
 const Right = styled.div`

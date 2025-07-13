@@ -1,21 +1,16 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
+import { useSelectedUserStore } from "../stores/useSelectedUserStore";
+import type { User } from "../types";
 
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-  isActive: boolean;
-  createdAt: string;
-}
 
 interface Props {
   users: User[];
 }
 
 export default function UserTableView({ users }: Props) {
+  const { setUser } = useSelectedUserStore();
   return (
     <ResponsiveWrapper>
       <TableWrapper>
@@ -47,7 +42,7 @@ export default function UserTableView({ users }: Props) {
                 </td>
                 <td>{new Date(u.createdAt).toLocaleDateString("tr-TR")}</td>
                 <td>
-                  <DetailLink to={`/users/${u.id}`}>
+                  <DetailLink to={`/users/${u.id}`} onClick={() => setUser(u)}>
                     Detay <FaArrowRight size={12} />
                   </DetailLink>
                 </td>
@@ -142,7 +137,6 @@ const StyledTable = styled.table`
     background: #f9fbfc;
   }
 `;
-
 
 const Badge = styled.span<{ $type: "active" | "inactive" | "role" }>`
   padding: 0.3rem 0.6rem;

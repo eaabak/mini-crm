@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { faker } from "@faker-js/faker";
 
-import { useUserStore } from "../store";
+import { useUserStore } from "../stores/useUserStore";
 import type { UserFormValues } from "../schema/userFormSchema";
 import UserForm from "./UserForm";
 import { Modal, Overlay } from "./ui";

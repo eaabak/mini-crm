@@ -1,4 +1,3 @@
-// components/ui/InputWithClear.tsx
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 
@@ -47,9 +46,7 @@ export default function Input({ value, onChange, placeholder }: Props) {
         placeholder={placeholder}
       />
       {value && (
-        <ClearButton onClick={() => onChange("")}
-          aria-label="Clear input"
-        >
+        <ClearButton onClick={() => onChange("")} aria-label="Clear input">
           <IoClose size={18} />
         </ClearButton>
       )}
