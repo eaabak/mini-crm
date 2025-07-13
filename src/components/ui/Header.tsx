@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { FaGithub } from "react-icons/fa";
-import LogoIcon from "../../../../assets/miniCRM.svg";
+import LogoIcon from "../../assets/miniCRM.svg";
 import { Link } from "react-router-dom";
 
 export default function Header() {

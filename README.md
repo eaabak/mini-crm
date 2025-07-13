@@ -1,69 +1,92 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Mini CRM – User Management Interface
 
-Currently, two official plugins are available:
+A modern user management panel built with **React**, **TypeScript**, **Zustand**, and **Leaflet**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+##  Project Structure
 
-## Expanding the ESLint configuration
+This project follows a **feature-based folder structure** for better modularity and scalability.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│       └── ui/
+├── features/
+│   └── users/
+│       ├── components/
+│       ├── schema/
+│       ├── pages/
+│       ├── store/
+│       ├── types
+│       └── utils
+├── types/
+├── utils/
+└── App.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React**
+- **React Router**
+- **TypeScript**
+- **Styled-components**
+- **Zustand (with persist middleware)**
+- **Leaflet.js**
+- **React-Icons**
+- **zod (for validation form)**
+- **useForm**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+
+## State Management
+
+- Global state is managed via **Zustand**, with the `persist` middleware to store user data in `localStorage`.
+- A utility function generates **mock users** on the initial load using `faker`.
+
+```ts
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+export const useUserStore = create<UserState>()(
+  persist(
+    (set) => ({
+      users: generateFakeUsers(),
+      addUser: (user) =>
+        set((state) => ({
+          users: [user, ...state.users],
+        })),
+      setUsers: (users) => set({ users }),
+    }),
+    {
+      name: "evreka_users", // localStorage key
+    }
+  )
+);
+```
+
+## Features
+
+- **Card and Table View Toggle**
+- **Responsive Design**
+- **User Detail Page with Map and Custom Marker**
+- **Open Popup with User Info**
+- **Search, Pagination, Add User**
+- **"User Not Found" fallback with stylish error state**
+- **Persistent Zustand store with no external database**
+
+## Leaflet Map Integration
+
+- Shows each user location on the map.
+- Uses **custom SVG marker icons**.
+- User info displayed in a **popup tooltip**, always open by default.
+
+## Data
+
+- All user data is generated locally with `faker`.
+- No backend API or database integration is required.
+
+##  Installation
+
+```bash
+npm install
+npm run dev
 ```

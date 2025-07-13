@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { useUserStore } from "../stores/useUserStore";
 import UserCardView from "../components/UserCardView";
 import UserTableView from "../components/UserTableView";
-import Pagination from "../components/ui/Pagination";
+import Pagination from "../../../components/ui/Pagination";
 import UserListActions from "../components/UserListActions";
 import { FaUserSlash } from "react-icons/fa";
 import React from "react";
