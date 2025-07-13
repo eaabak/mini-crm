@@ -4,7 +4,7 @@ import { faker } from "@faker-js/faker";
 import { useUserStore } from "../stores/useUserStore";
 import type { UserFormValues } from "../schema/userFormSchema";
 import UserForm from "./UserForm";
-import { Modal, Overlay } from "./ui";
+import { Modal, Overlay } from "../../../components/ui";
 
 
 export default function AddUserModal() {

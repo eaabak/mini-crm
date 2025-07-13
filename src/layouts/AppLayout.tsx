@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Outlet } from "react-router-dom";
-import { Footer, Header } from "../features/users/components/ui";
+import { Footer, Header } from "../components/ui";
 
 export default function AppLayout() {
   return (
